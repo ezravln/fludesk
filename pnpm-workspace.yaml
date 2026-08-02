@@ -1,0 +1,7 @@
+packages:
+  - 'frontend'
+  - 'backend'
+minimumReleaseAgeExclude:
+  - lucide-react@1.25.0
+  - react-hook-form@7.82.0
+  - shadcn@4.13.1
