@@ -19,7 +19,7 @@ export async function connectDatabase() {
 
     client.release()
   } catch (err: any) {
-    console.error("[DB] Failed to connect\n", error)
+    console.error("[DB] Failed to connect\n", err)
     process.exit(1)
   }
 }
