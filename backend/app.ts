@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import path from "path"
+import errorMiddleware from "@/middlewares/error.middleware"
 import authRoutes from "@/routes/auth.route"
 import usersRoutes from "@/routes/users.route"
 
@@ -27,10 +28,8 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/auth", authRoutes)
 app.use("/api/users", usersRoutes)
+app.use("/api/media", express.static(path.join(process.cwd(), "uploads")))
 
-app.use(
-  "/api/media",
-  express.static(path.join(process.cwd(), "uploads"))
-)
+app.use(errorMiddleware)
 
 export default app
