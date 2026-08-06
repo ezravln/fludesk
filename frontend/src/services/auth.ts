@@ -1,5 +1,24 @@
 import api from './api'
 
+
+export async function me() {
+  const response = await fetch(api(`/auth/me`), {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+
+  const result = await response.json()
+
+  if (!response.ok) {
+    throw new Error(`Error: ${result.message}`)
+  }
+
+  return result
+}
+
 export async function login(email: string, password: string) {
   const response = await fetch(api(`/auth/login`), {
     method: "POST",

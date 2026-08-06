@@ -1,31 +1,33 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { me } from '@/services/auth'
+
+import type User from "@/types/user"
 
 export function useAuth() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
     let isMounted = true
 
     async function checkAuth() {
       try {
-        const response = await fetch('http://localhost:3000/api/auth/me', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        })
+        const data = await me()
 
-        if (response.ok) {
-          if (isMounted) setIsLoggedIn(true)
-        } else {
-          if (isMounted) setIsLoggedIn(false)
-        }
-      } catch (err) {
-        if (isMounted) setIsLoggedIn(false)
+        if (!isMounted) return
+
+        setUser(data.user)
+        setIsLoggedIn(true)
+      } catch {
+        if (!isMounted) return
+
+        setUser(null)
+        setIsLoggedIn(false)
       } finally {
-        if (isMounted) setLoading(false)
+        if (isMounted) {
+          setLoading(false)
+        }
       }
     }
 
@@ -36,5 +38,5 @@ export function useAuth() {
     }
   }, [])
 
-  return { isLoggedIn, loading }
+  return { user, isLoggedIn, loading }
 }

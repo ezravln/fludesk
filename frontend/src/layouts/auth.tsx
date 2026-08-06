@@ -1,14 +1,21 @@
-import React from "react"
+import { useEffect } from "react"
 import { useNavigate, Outlet } from "react-router"
 import { useAuth } from "@/hooks/auth"
+import Loading from "@/pages/loading"
 
 
 export default function AuthLayout() {
-  const { user } = useAuth()
+  const { isLoggedIn, loading } = useAuth()
   const navigate = useNavigate()
 
-  if (user) {
-    return navigate('/dashboard')
+  useEffect(() => {
+    if (isLoggedIn && !loading) {
+      navigate('/home')
+    }
+  }, [isLoggedIn, navigate])
+
+  if (loading) {
+    return <Loading/>
   }
 
   return <>

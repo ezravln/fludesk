@@ -1,15 +1,20 @@
-import { Navigate, Outlet } from "react-router"
-import { useAuth } from "@/hooks/auth"
+import { Outlet, useNavigate } from 'react-router'
+import { useAuth } from '@/hooks/auth'
+import { useEffect } from 'react'
+import Loading from '@/pages/loading'
 
 export default function ProtectedLayout() {
-  const { user, isLoading } = useAuth()
+  const { isLoggedIn, loading } = useAuth()
+  const navigate = useNavigate()
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      navigate('/login', { replace: true })
+    }
+  }, [loading, isLoggedIn, navigate])
 
-  if (!user) {
-    return <Navigate to="/login" replace />
+  if (loading) {
+    return <Loading />
   }
 
   return <Outlet />

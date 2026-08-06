@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,22 +16,24 @@ import {
 import { login } from "@/services/auth"
 
 export default function Login() {
-  const { user } = useAuth()
+  const { isLoggedIn } = useAuth()
   const navigate = useNavigate()
 
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ error, setError ] = useState('')
 
-  if (user) {
-    return navigate('/home', { replace: true })
-  }
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/home', { replace: true })
+    }
+  }, [isLoggedIn, navigate])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
-      const res = await login(email, password)
+      await login(email, password)
       return navigate('/home')
     } catch (error: any) {
       setError(error.message)

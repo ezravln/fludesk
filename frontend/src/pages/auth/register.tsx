@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,7 +16,7 @@ import {
 import { register } from "@/services/auth"
 
 export default function Register() {
-  const { user } = useAuth()
+  const { isLoggedIn } = useAuth()
   const navigate = useNavigate()
 
   const [ name, setName ] = useState('')
@@ -24,15 +24,17 @@ export default function Register() {
   const [ password, setPassword ] = useState('')
   const [ error, setError ] = useState('')
 
-  if (user) {
-    return navigate('/home', { replace: true })
-  }
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/home', { replace: true })
+    }
+  }, [isLoggedIn, navigate])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
-      const res = await register(name, email, password)
+      await register(name, email, password)
       return navigate('/login')
     } catch (error: any) {
       setError(error.message)
