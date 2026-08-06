@@ -4,6 +4,7 @@ import * as refreshTokenRepository from "@/repositories/refresh_tokens.repositor
 import type { User, UserResponse } from "@/types/user.type"
 import type { Express } from "express"
 import bcrypt from "bcrypt"
+import AppError from "@/errors/appError"
 
 export async function getUsers() {
   const users = await userRepository.findAll()
@@ -13,7 +14,7 @@ export async function getUsers() {
 
 export async function getUserById(id: string): Promise<UserResponse | null> {
   const user = await userRepository.findById(id)
-  if (!user) return null
+  if (!user) throw new AppError(404, "User not found.")
 
   let avatar = null
   if (user.avatar_file_id) {
@@ -35,11 +36,17 @@ export async function createUser(user: {
   email: string,
   password: string
 }): Promise<UserResponse> {
+  const existingUser = await userRepository.findByEmail(user.email)
+
+  if (existingUser) {
+    throw new AppError(409, "User already exists.")
+  }
+
   const hashedPassword = await bcrypt.hash(user.password, 10)
   const newUser = await userRepository.insert(user.name, user.email, hashedPassword)
 
   if (!newUser) {
-    throw new Error("Failed to create user.")
+    throw new AppError(500, "Failed to create user.")
   }
 
   return {
@@ -63,7 +70,7 @@ export async function updateUser(
   const currentUser = await userRepository.findByIdWithPassword(id)
 
   if (!currentUser) {
-    throw new Error("User not found.")
+    throw new AppError(404, "User not found.")
   }
 
   const name = input.name ?? currentUser.name
@@ -91,7 +98,7 @@ export async function updateUser(
   )
 
   if (!updatedUser) {
-    throw new Error("Failed to update user.")
+    throw new AppError(500, "Failed to update user.")
   }
 
   return {

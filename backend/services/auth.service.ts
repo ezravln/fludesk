@@ -3,6 +3,7 @@ import * as userRepository from "@/repositories/users.repository"
 import * as refreshTokenRepository from "@/repositories/refresh_tokens.repository"
 import * as userService from "@/services/users.service"
 import type { JwtPayload } from "@/types/jwt.type"
+import AppError from "@/errors/appError"
 
 const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY || "15m"
 const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY || "7d"
@@ -14,7 +15,7 @@ export async function register(data: {
 }) {
   const existingUser = await userRepository.findByEmail(data.email)
   if (existingUser) {
-    throw new Error("Email already registered")
+    throw new AppError(409, "Email already registered.")
   }
 
   const user = await userService.createUser(data)
@@ -24,12 +25,12 @@ export async function register(data: {
 export async function login(email: string, password: string) {
   const user = await userRepository.findByEmail(email)
   if (!user) {
-    throw new Error("Invalid credentials")
+    throw new AppError(404, "Account not registered.")
   }
 
   const isValidPassword = await userService.validatePassword(password, user.password)
   if (!isValidPassword) {
-    throw new Error("Invalid credentials")
+    throw new AppError(401, "Incorrect password.")
   }
 
   const accessToken = generateAccessToken(user)
@@ -49,17 +50,17 @@ export async function login(email: string, password: string) {
 export async function refreshAccessToken(refreshToken: string) {
   const tokenRecord = await refreshTokenRepository.findByToken(refreshToken)
   if (!tokenRecord) {
-    throw new Error("Invalid refresh token")
+    throw new AppError(401, "Invalid refresh token")
   }
 
   if (new Date(tokenRecord.expires_at) < new Date()) {
     await refreshTokenRepository.removeByToken(refreshToken)
-    throw new Error("Refresh token expired")
+    throw new AppError(401, "Refresh token expired")
   }
 
   const user = await userRepository.findById(tokenRecord.user_id)
   if (!user) {
-    throw new Error("User not found")
+    throw new AppError(404, "User not found.")
   }
 
   const accessToken = generateAccessToken({

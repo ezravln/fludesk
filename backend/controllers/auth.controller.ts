@@ -1,5 +1,6 @@
 import type { Request, Response } from "express"
 import * as authService from "@/services/auth.service"
+import AppError from "@/errors/appError"
 
 export async function register(req: Request, res: Response) {
   try {
@@ -11,26 +12,19 @@ export async function register(req: Request, res: Response) {
       })
     }
 
-    const user = await authService.register({ name, email, password })
-
+    const result = await authService.register({ name, email, password })
     res.status(201).json({
       message: "User registered successfully",
       user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
+        id: result.data.id,
+        name: result.data.name,
+        email: result.data.email,
       },
     })
-  } catch (error: any) {
-    if (error.message === "Email already registered") {
-      return res.status(409).json({
-        message: error.message,
-      })
-    }
-
+  } catch (error: AppError) {
     console.error("[Auth] Register error:", error)
-    res.status(500).json({
-      message: "Internal server error",
+    res.status(error.statusCode).json({
+      message: error.message,
     })
   }
 }
@@ -60,16 +54,10 @@ export async function login(req: Request, res: Response) {
       accessToken: result.accessToken,
       refreshToken: result.refreshToken,
     })
-  } catch (error: any) {
-    if (error.message === "Invalid credentials") {
-      return res.status(401).json({
-        message: error.message,
-      })
-    }
-
+  } catch (error: AppError) {
     console.error("[Auth] Login error:", error)
-    res.status(500).json({
-      message: "Internal server error",
+    res.status(error.statusCode).json({
+      message: error.message,
     })
   }
 }
@@ -87,10 +75,10 @@ export async function logout(req: Request, res: Response) {
     res.status(200).json({
       message: "Logout successful",
     })
-  } catch (error: any) {
+  } catch (error: AppError) {
     console.error("[Auth] Logout error:", error)
-    res.status(500).json({
-      message: "Internal server error",
+    res.status(error.statusCode).json({
+      message: error.message,
     })
   }
 }
@@ -117,16 +105,10 @@ export async function refresh(req: Request, res: Response) {
     res.status(200).json({
       accessToken: result.accessToken,
     })
-  } catch (error: any) {
-    if (error.message === "Invalid refresh token" || error.message === "Refresh token expired") {
-      return res.status(401).json({
-        message: error.message,
-      })
-    }
-
+  } catch (error: AppError) {
     console.error("[Auth] Refresh error:", error)
-    res.status(500).json({
-      message: "Internal server error",
+    res.status(error.statusCode).json({
+      message: error.message,
     })
   }
 }
@@ -146,10 +128,10 @@ export async function logoutAll(req: Request, res: Response) {
     res.status(200).json({
       message: "Logged out from all devices",
     })
-  } catch (error: any) {
+  } catch (error: AppError) {
     console.error("[Auth] Logout all error:", error)
-    res.status(500).json({
-      message: "Internal server error",
+    res.status(error.statusCode).json({
+      message: error.message,
     })
   }
 }
@@ -165,10 +147,10 @@ export async function me(req: Request, res: Response) {
     res.status(200).json({
       user: req.user,
     })
-  } catch (error: any) {
+  } catch (error: AppError) {
     console.error("[Auth] Me error:", error)
-    res.status(500).json({
-      message: "Internal server error",
+    res.status(error.statusCode).json({
+      message: error.message,
     })
   }
 }
