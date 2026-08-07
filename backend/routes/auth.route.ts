@@ -6,8 +6,9 @@ const router = Router()
 
 router.post("/register", authController.register)
 router.post("/login", authController.login)
-router.post("/logout", authController.logout)
 router.post("/refresh", authController.refresh)
+
+router.post("/logout", authMiddleware, authController.logout)
 router.post("/logout-all", authMiddleware, authController.logoutAll)
 router.get("/me", authMiddleware, authController.me)
 

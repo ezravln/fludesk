@@ -2,7 +2,7 @@ import api from './api'
 
 
 export async function me() {
-  const response = await fetch(api(`/auth/me`), {
+  const response = await api(`/auth/me`, {
     method: "GET",
     credentials: "include",
     headers: {
@@ -20,7 +20,7 @@ export async function me() {
 }
 
 export async function login(email: string, password: string) {
-  const response = await fetch(api(`/auth/login`), {
+  const response = await api(`/auth/login`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -42,7 +42,7 @@ export async function login(email: string, password: string) {
 }
 
 export async function register(name: string, email: string, password: string) {
-  const response = await fetch(api(`/auth/register`), {
+  const response = await api(`/auth/register`, {
     method: "POST",
     credentials: "include",
     headers: {

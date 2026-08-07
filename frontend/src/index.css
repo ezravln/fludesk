@@ -37,7 +37,7 @@
 
 body {
   margin: 0;
-  background: #F5F5F7;
+  background: #F0F0F0;
 }
 
 @theme inline {
@@ -164,3 +164,62 @@ body {
   }
 }
 
+.scrollbar-sm-right {
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d8 transparent;
+}
+
+.scrollbar-sm-right::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-sm-right::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.scrollbar-sm-right::-webkit-scrollbar-thumb {
+  background: rgba(161, 161, 170, 0.45);
+  border-radius: 9999px;
+}
+
+.scrollbar-sm-right::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 113, 122, 0.65);
+}
+
+.scrollbar-sm-left {
+  direction: rtl;
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d8 transparent;
+}
+
+.scrollbar-sm-left > * {
+  direction: ltr;
+}
+
+.scrollbar-sm-left::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-sm-left::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.scrollbar-sm-left::-webkit-scrollbar-thumb {
+  background: rgba(161, 161, 170, 0.45);
+  border-radius: 9999px;
+}
+
+.scrollbar-sm-left::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 113, 122, 0.65);
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}

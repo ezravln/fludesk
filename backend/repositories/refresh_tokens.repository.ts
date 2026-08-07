@@ -5,6 +5,7 @@ export async function findByToken(token: string) {
     `SELECT * FROM refresh_tokens WHERE token = $1 LIMIT 1`,
     [token]
   )
+
   return result.rows[0] ?? null
 }
 

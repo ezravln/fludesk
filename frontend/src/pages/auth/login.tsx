@@ -16,7 +16,7 @@ import {
 import { login } from "@/services/auth"
 
 export default function Login() {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, setUser } = useAuth()
   const navigate = useNavigate()
 
   const [ email, setEmail ] = useState('')
@@ -25,7 +25,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('/home', { replace: true })
+      navigate('/app', { replace: true })
     }
   }, [isLoggedIn, navigate])
 
@@ -33,8 +33,9 @@ export default function Login() {
     e.preventDefault()
 
     try {
-      await login(email, password)
-      return navigate('/home')
+      const data = await login(email, password)
+      setUser(data.user)
+      return navigate('/app')
     } catch (error: any) {
       setError(error.message)
     }
