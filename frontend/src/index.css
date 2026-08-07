@@ -164,7 +164,6 @@ body {
   }
 }
 
-/* Scrollbar kecil - kanan */
 .scrollbar-sm-right {
   scrollbar-width: thin;
   scrollbar-color: #d4d4d8 transparent;
@@ -188,7 +187,6 @@ body {
   background: rgba(113, 113, 122, 0.65);
 }
 
-/* Scrollbar kecil - kiri */
 .scrollbar-sm-left {
   direction: rtl;
   scrollbar-width: thin;
