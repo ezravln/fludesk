@@ -10,7 +10,7 @@ export default function AuthLayout() {
 
   useEffect(() => {
     if (isLoggedIn && !loading) {
-      navigate('/home')
+      navigate('/app')
     }
   }, [isLoggedIn, navigate])
 

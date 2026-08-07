@@ -8,6 +8,7 @@ import Landing from "@/pages/landing"
 import Home from "@/pages/home"
 import Login from "@/pages/auth/login"
 import Register from "@/pages/auth/register"
+import NotFound from "@/pages/error"
 
 const routes: RouteObject[] = [
   {
@@ -15,10 +16,11 @@ const routes: RouteObject[] = [
     element: <Landing />,
   },
   {
+    path: "/app",
     element: <ProtectedLayout />,
     children: [
       {
-        path: "/home",
+        index: true,
         element: <Home />,
       },
     ],
@@ -36,6 +38,10 @@ const routes: RouteObject[] = [
       },
     ],
   },
+  {
+    path: "*",
+    element: <NotFound />
+  }
 ]
 
 const router = createBrowserRouter(routes)

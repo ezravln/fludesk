@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { useAuth } from "@/hooks/auth";
 import { cn } from "@/lib/utils";
 import Loading from "../loading";
-import Home from "@/components/landing/home";
+import Hero from "@/components/landing/hero";
 import Features from "@/components/landing/features";
 import { Button } from "@/components/ui/button";
 
@@ -31,11 +31,11 @@ export default function Landing() {
         </HeaderLabel>
 
         <HeaderNav className="gap-5 justify-self-center">
-          <Button onClick={() => scrollToSection('feature')} variant={'ghost'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">Features</Button>
-          <Button onClick={() => scrollToSection('showcase')} variant={'ghost'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">Showcase</Button>
-          <Button onClick={() => scrollToSection('roadmap')} variant={'ghost'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">Roadmap</Button>
-          <Button onClick={() => scrollToSection('github')} variant={'ghost'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">Github</Button>
-          <Button onClick={() => scrollToSection('faq')} variant={'ghost'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">FAQ</Button>
+          <Button onClick={() => scrollToSection('feature')} variant={'link'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">Features</Button>
+          <Button onClick={() => scrollToSection('showcase')} variant={'link'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">Showcase</Button>
+          {/*<Button onClick={() => scrollToSection('changelog')} variant={'ghost'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">Changelog</Button>*/}
+          <Button onClick={() => scrollToSection('github')} variant={'link'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">Github</Button>
+          <Button onClick={() => scrollToSection('faq')} variant={'link'} className="cursor-pointer hover:text-[#79AC78] text-sm transition-colors">FAQ</Button>
         </HeaderNav>
 
         <HeaderNav className="justify-self-end">
@@ -71,7 +71,7 @@ export default function Landing() {
             </Link>
           </> : <>
             <Link
-              to="/home"
+              to="/app"
               className={cn(
                 "inline-flex items-center justify-center rounded-full",
                 "border border-[#79AC78]",
@@ -82,13 +82,13 @@ export default function Landing() {
                 "active:scale-[0.98]"
               )}
             >
-              Your page
+               Your App
             </Link>
           </>}
         </HeaderNav>
       </Header>
 
-      <Home />
+      <Hero />
       <Features/>
     </div>
   )

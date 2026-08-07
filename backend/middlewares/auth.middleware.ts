@@ -6,7 +6,7 @@ export function authMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  const token = req.cookies.token;
+  const token = req.cookies.accessToken;
 
   if (!token) {
     return res.status(401).json({

@@ -41,11 +41,18 @@ export async function login(req: Request, res: Response) {
 
     const result = await authService.login(email, password)
 
-    res.cookie("token", result.accessToken, {
+    res.cookie("accessToken", result.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      maxAge: 15 * 60 * 1000,
+    })
+
+    res.cookie("refreshToken", result.refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
     res.status(200).json({
@@ -84,8 +91,10 @@ export async function logout(req: Request, res: Response) {
 }
 
 export async function refresh(req: Request, res: Response) {
+  console.log("REFRESH ACCESS TOKEN...")
+
   try {
-    const { refreshToken } = req.body
+    const refreshToken = req.cookies.refreshToken
 
     if (!refreshToken) {
       return res.status(400).json({
@@ -95,7 +104,7 @@ export async function refresh(req: Request, res: Response) {
 
     const result = await authService.refreshAccessToken(refreshToken)
 
-    res.cookie("token", result.accessToken, {
+    res.cookie("accessToken", result.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",

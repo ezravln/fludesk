@@ -1,4 +1,4 @@
-export default function Home() {
+export default function Hero() {
   return (
     <section className="mx-auto flex min-h-[80vh] w-full max-w-7xl items-center px-5 py-20 sm:px-8 lg:px-12">
       <div className="mx-auto max-w-4xl text-center">

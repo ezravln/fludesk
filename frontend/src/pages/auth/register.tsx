@@ -26,7 +26,7 @@ export default function Register() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('/home', { replace: true })
+      navigate('/app', { replace: true })
     }
   }, [isLoggedIn, navigate])
 
