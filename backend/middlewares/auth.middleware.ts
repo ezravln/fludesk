@@ -10,7 +10,8 @@ export function authMiddleware(
 
   if (!token) {
     return res.status(401).json({
-      message: "Unauthorized",
+      status: 401,
+      message: "Unauthorized"
     });
   }
 
