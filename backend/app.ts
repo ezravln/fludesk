@@ -5,6 +5,7 @@ import path from "path"
 import errorMiddleware from "@/middlewares/error.middleware"
 import authRoutes from "@/routes/auth.route"
 import usersRoutes from "@/routes/users.route"
+import notesRoutes from "@/routes/notes.route"
 
 const app = express()
 
@@ -28,6 +29,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/auth", authRoutes)
 app.use("/api/users", usersRoutes)
+app.use("/api/notes", notesRoutes)
 app.use("/api/media", express.static(path.join(process.cwd(), "uploads")))
 
 app.use(errorMiddleware)

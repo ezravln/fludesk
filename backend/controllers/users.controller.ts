@@ -1,6 +1,5 @@
 import type { Request, Response } from "express"
 import * as userService from "@/services/users.service"
-import AppError from "@/errors/appError"
 
 export async function getUsers(req: Request, res: Response) {
   try {
@@ -8,7 +7,7 @@ export async function getUsers(req: Request, res: Response) {
     res.status(200).json({
       users,
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Get all users error:", error)
     res.status(error.statusCode).json({
       message: error.message,
@@ -32,7 +31,7 @@ export async function getUserById(req: Request, res: Response) {
     res.status(200).json({
       user,
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Get user by id error:", error)
     res.status(error.statusCode).json({
       message: error.message,
@@ -68,7 +67,7 @@ export async function updateUser(req: Request, res: Response) {
       message: "User updated successfully",
       user,
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Update user error:", error)
     res.status(error.statusCode).json({
       message: error.message,
@@ -98,7 +97,7 @@ export async function deleteUser(req: Request, res: Response) {
     res.status(200).json({
       message: "User deleted successfully",
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Delete user error:", error)
     res.status(error.statusCode).json({
       message: error.message,

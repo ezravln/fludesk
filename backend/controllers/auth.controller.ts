@@ -1,6 +1,5 @@
 import type { Request, Response } from "express"
 import * as authService from "@/services/auth.service"
-import AppError from "@/errors/appError"
 
 export async function register(req: Request, res: Response) {
   try {
@@ -16,12 +15,12 @@ export async function register(req: Request, res: Response) {
     res.status(201).json({
       message: "User registered successfully",
       user: {
-        id: result.data.id,
-        name: result.data.name,
-        email: result.data.email,
+        id: result.id,
+        name: result.name,
+        email: result.email,
       },
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Register error:", error)
     res.status(error.statusCode).json({
       message: error.message,
@@ -61,7 +60,7 @@ export async function login(req: Request, res: Response) {
       accessToken: result.accessToken,
       refreshToken: result.refreshToken,
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Login error:", error)
     res.status(error.statusCode).json({
       message: error.message,
@@ -82,7 +81,7 @@ export async function logout(req: Request, res: Response) {
     res.status(200).json({
       message: "Logout successful",
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Logout error:", error)
     res.status(error.statusCode).json({
       message: error.message,
@@ -114,7 +113,7 @@ export async function refresh(req: Request, res: Response) {
     res.status(200).json({
       accessToken: result.accessToken,
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Refresh error:", error)
     res.status(error.statusCode).json({
       message: error.message,
@@ -137,7 +136,7 @@ export async function logoutAll(req: Request, res: Response) {
     res.status(200).json({
       message: "Logged out from all devices",
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Logout all error:", error)
     res.status(error.statusCode).json({
       message: error.message,
@@ -156,7 +155,7 @@ export async function me(req: Request, res: Response) {
     res.status(200).json({
       user: req.user,
     })
-  } catch (error: AppError) {
+  } catch (error: any) {
     console.error("[Auth] Me error:", error)
     res.status(error.statusCode).json({
       message: error.message,

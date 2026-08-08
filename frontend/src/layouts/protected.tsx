@@ -89,7 +89,7 @@ export default function ProtectedLayout() {
         </SidebarNavGroup>
       </SidebarNavContainer>
     </Sidebar>
-    <div className='content-wrapper p-3 w-full max-h-screen overflow-y-auto'>
+    <div className='content-wrapper py-3 px-3 sm:px-0 sm:pr-3 w-full max-h-screen overflow-y-auto pb-15 sm:pb-0'>
       <Outlet />
     </div>
     <BottomNavigator className='sm:hidden'>
