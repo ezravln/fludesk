@@ -46,6 +46,10 @@ Fludesk is a project management tool designed for teams to organize tasks, track
 - ESLint for code quality
 - TypeScript for type safety
 
+## Preview Image
+![](screenshot/landing_page.png)
+![](screenshot/home_page.png)
+
 ## Installation
 
 ### Prerequisites
