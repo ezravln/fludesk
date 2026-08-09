@@ -38,16 +38,13 @@ const navigations = [
 
 const boards = [
   {
-    name: "Marketing",
+    name: "My Task",
   },
   {
-    name: "Development",
+    name: "Work",
   },
   {
-    name: "Frontend Web Development",
-  },
-  {
-    name: "Daily Task",
+    name: "Study",
   }
 ]
 
